@@ -7,7 +7,7 @@ from dataclasses import dataclass, field
 class ContributorCard:
     """A card from a project board for the contributors tool."""
 
-    key: str  # dedup key, e.g. "plone/volto#1234"
+    key: str  # e.g. "plone/volto#1234"
     title: str
     url: str
     repository: str
