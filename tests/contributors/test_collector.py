@@ -56,8 +56,9 @@ def test_collect_returns_matching_issue(
     monkeypatch.setattr(
         f"{MODULE}.query_graphql_all", fake_query_all
     )
+    monkeypatch.setattr(f"{MODULE}.BOARDS", BOARDS)
 
-    cards = collect(headers=fake_headers, boards=BOARDS)
+    cards = collect(headers=fake_headers)
     assert len(cards) == 1
     assert cards[0].title == "Help wanted"
     assert cards[0].key == "plone/volto#1"
@@ -72,8 +73,9 @@ def test_collect_skips_prs_and_wrong_labels(
     monkeypatch.setattr(
         f"{MODULE}.query_graphql_all", fake_query_all
     )
+    monkeypatch.setattr(f"{MODULE}.BOARDS", BOARDS)
 
-    cards = collect(headers=fake_headers, boards=BOARDS)
+    cards = collect(headers=fake_headers)
     # Only ISSUE_NODE passes both filters
     assert len(cards) == 1
     assert cards[0].title == "Help wanted"
@@ -88,8 +90,9 @@ def test_collect_skips_failed_board(
     monkeypatch.setattr(
         f"{MODULE}.query_graphql_all", fake_query_all
     )
+    monkeypatch.setattr(f"{MODULE}.BOARDS", BOARDS)
 
-    cards = collect(headers=fake_headers, boards=BOARDS)
+    cards = collect(headers=fake_headers)
     assert cards == []
 
 
@@ -106,6 +109,7 @@ def test_collect_filters_by_repo_allowlist(
     monkeypatch.setattr(
         f"{MODULE}.REPOSITORIES", ["plone/plone"]
     )
+    monkeypatch.setattr(f"{MODULE}.BOARDS", BOARDS)
 
-    cards = collect(headers=fake_headers, boards=BOARDS)
+    cards = collect(headers=fake_headers)
     assert cards == []

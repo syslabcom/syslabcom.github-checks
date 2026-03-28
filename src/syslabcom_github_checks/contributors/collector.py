@@ -13,12 +13,11 @@ log = logging.getLogger(__name__)
 ITEMS_PATH = "data.organization.projectV2.items"
 
 
-def collect(*, headers=None, boards=None):
+def collect(*, headers=None):
     """Fetch contributor cards from all configured boards."""
-    boards = boards or BOARDS
     all_cards = []
 
-    for board in boards:
+    for board in BOARDS:
         org = board["org"]
         project_num = board["project_num"]
         project_name = f"{org}/{project_num}"
