@@ -18,12 +18,8 @@ def test_missing_token_exits_with_code_1(monkeypatch):
 
 def test_dry_run_does_not_write(monkeypatch, tmp_path):
     monkeypatch.setenv("GITHUB_TOKEN", "fake-token")
-    monkeypatch.setattr(
-        f"{MODULE}.collect", lambda **kw: []
-    )
-    monkeypatch.setattr(
-        f"{MODULE}.OUTPUT_DIR", tmp_path / "out"
-    )
+    monkeypatch.setattr(f"{MODULE}.collect", lambda **kw: [])
+    monkeypatch.setattr(f"{MODULE}.OUTPUT_DIR", tmp_path / "out")
 
     main(["--dry-run"])
     assert not (tmp_path / "out").exists()
@@ -31,14 +27,10 @@ def test_dry_run_does_not_write(monkeypatch, tmp_path):
 
 def test_normal_run_writes_json(monkeypatch, tmp_path):
     monkeypatch.setenv("GITHUB_TOKEN", "fake-token")
-    monkeypatch.setattr(
-        f"{MODULE}.collect", lambda **kw: []
-    )
+    monkeypatch.setattr(f"{MODULE}.collect", lambda **kw: [])
     out_dir = tmp_path / "out"
     monkeypatch.setattr(f"{MODULE}.OUTPUT_DIR", out_dir)
-    monkeypatch.setattr(
-        f"{MODULE}.OUTPUT_FILE", "test.json"
-    )
+    monkeypatch.setattr(f"{MODULE}.OUTPUT_FILE", "test.json")
 
     main([])
 

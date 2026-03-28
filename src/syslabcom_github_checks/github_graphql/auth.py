@@ -4,9 +4,7 @@ import os
 def get_headers(token=None):
     """Resolve a GitHub token and return auth headers."""
     token = (
-        token
-        or os.environ.get("GITHUB_TOKEN")
-        or os.environ.get("GH_TOKEN")
+        token or os.environ.get("GITHUB_TOKEN") or os.environ.get("GH_TOKEN")
     )
     if not token:
         raise ValueError(

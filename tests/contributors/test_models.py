@@ -1,5 +1,3 @@
-import pytest
-
 from syslabcom_github_checks.contributors.models import (
     ContributorCard,
 )
@@ -36,9 +34,7 @@ def test_from_graphql():
         "fieldValues": {
             "nodes": [
                 {
-                    "__typename": (
-                        "ProjectV2ItemFieldSingleSelectValue"
-                    ),
+                    "__typename": ("ProjectV2ItemFieldSingleSelectValue"),
                     "name": "In Progress",
                     "field": {"name": "Status"},
                 },
@@ -102,9 +98,7 @@ def test_from_graphql_missing_fields():
             "author": {"login": "MrTango"},
             "assignees": {"nodes": []},
             "labels": {"nodes": []},
-            "repository": {
-                "nameWithOwner": "plone/plone.classicui"
-            },
+            "repository": {"nameWithOwner": "plone/plone.classicui"},
         },
     }
     card = ContributorCard.from_graphql(node, "Plone Board")

@@ -27,23 +27,15 @@ class ContributorCard:
     def from_graphql(cls, node, project_name):
         """Build a ContributorCard from a raw GraphQL node."""
         content = node.get("content") or {}
-        repo = (content.get("repository") or {}).get(
-            "nameWithOwner", ""
-        )
+        repo = (content.get("repository") or {}).get("nameWithOwner", "")
         number = content.get("number", 0)
         field_values = _extract_field_values(node)
 
-        labels_data = (
-            (content.get("labels") or {}).get("nodes") or []
-        )
-        labels = [l["name"] for l in labels_data if "name" in l]
+        labels_data = (content.get("labels") or {}).get("nodes") or []
+        labels = [lbl["name"] for lbl in labels_data if "name" in lbl]
 
-        assignees_data = (
-            (content.get("assignees") or {}).get("nodes") or []
-        )
-        assignees = [
-            a["login"] for a in assignees_data if "login" in a
-        ]
+        assignees_data = (content.get("assignees") or {}).get("nodes") or []
+        assignees = [a["login"] for a in assignees_data if "login" in a]
 
         return cls(
             key=f"{repo}#{number}",
@@ -54,9 +46,7 @@ class ContributorCard:
             state=content.get("state", ""),
             board_status=field_values.get("Status"),
             labels=labels,
-            author=(content.get("author") or {}).get(
-                "login", ""
-            ),
+            author=(content.get("author") or {}).get("login", ""),
             assignees=assignees,
             created_at=content.get("createdAt", ""),
             updated_at=content.get("updatedAt", ""),

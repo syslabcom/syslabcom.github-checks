@@ -17,7 +17,9 @@ query($owner: String!, $projectNumber: Int!, $itemsCursor: String) {
                             __typename
                             ... on ProjectV2ItemFieldSingleSelectValue {
                                 name
-                                field { ... on ProjectV2SingleSelectField { name } }
+                                field {
+                                    ... on ProjectV2SingleSelectField { name }
+                                }
                             }
                             ... on ProjectV2ItemFieldDateValue {
                                 date

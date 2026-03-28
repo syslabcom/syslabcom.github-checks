@@ -23,9 +23,7 @@ def query_graphql(query, variables, path, *, headers=None):
         timeout=30,
     )
     if response.status_code != 200:
-        raise RuntimeError(
-            f"HTTP {response.status_code}: {response.text}"
-        )
+        raise RuntimeError(f"HTTP {response.status_code}: {response.text}")
 
     data = response.json()
     if "errors" in data:
@@ -34,9 +32,7 @@ def query_graphql(query, variables, path, *, headers=None):
     return j_get(path, data)
 
 
-def query_graphql_all(
-    query, variables, path, *, headers=None, delay_sec=0.0
-):
+def query_graphql_all(query, variables, path, *, headers=None, delay_sec=0.0):
     """Paginated GraphQL fetch, returns all nodes."""
     if headers is None:
         headers = get_headers()
@@ -54,9 +50,7 @@ def query_graphql_all(
             timeout=30,
         )
         if response.status_code != 200:
-            raise RuntimeError(
-                f"HTTP {response.status_code}: {response.text}"
-            )
+            raise RuntimeError(f"HTTP {response.status_code}: {response.text}")
 
         payload = response.json()
         if "errors" in payload:

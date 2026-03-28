@@ -15,9 +15,7 @@ ISSUE_NODE = {
         "updatedAt": "2026-01-02T00:00:00Z",
         "author": {"login": "alice"},
         "assignees": {"nodes": []},
-        "labels": {
-            "nodes": [{"name": "contributors wanted"}]
-        },
+        "labels": {"nodes": [{"name": "contributors wanted"}]},
         "repository": {"nameWithOwner": "plone/volto"},
     },
 }
@@ -47,15 +45,11 @@ WRONG_LABEL_NODE = {
 BOARDS = [{"org": "plone", "project_num": 28}]
 
 
-def test_collect_returns_matching_issue(
-    monkeypatch, fake_headers
-):
+def test_collect_returns_matching_issue(monkeypatch, fake_headers):
     def fake_query_all(query, variables, path, *, headers=None):
         return [ISSUE_NODE]
 
-    monkeypatch.setattr(
-        f"{MODULE}.query_graphql_all", fake_query_all
-    )
+    monkeypatch.setattr(f"{MODULE}.query_graphql_all", fake_query_all)
     monkeypatch.setattr(f"{MODULE}.BOARDS", BOARDS)
 
     cards = collect(headers=fake_headers)
@@ -64,15 +58,11 @@ def test_collect_returns_matching_issue(
     assert cards[0].key == "plone/volto#1"
 
 
-def test_collect_skips_prs_and_wrong_labels(
-    monkeypatch, fake_headers
-):
+def test_collect_skips_prs_and_wrong_labels(monkeypatch, fake_headers):
     def fake_query_all(query, variables, path, *, headers=None):
         return [PR_NODE, WRONG_LABEL_NODE, ISSUE_NODE]
 
-    monkeypatch.setattr(
-        f"{MODULE}.query_graphql_all", fake_query_all
-    )
+    monkeypatch.setattr(f"{MODULE}.query_graphql_all", fake_query_all)
     monkeypatch.setattr(f"{MODULE}.BOARDS", BOARDS)
 
     cards = collect(headers=fake_headers)
@@ -81,34 +71,24 @@ def test_collect_skips_prs_and_wrong_labels(
     assert cards[0].title == "Help wanted"
 
 
-def test_collect_skips_failed_board(
-    monkeypatch, fake_headers
-):
+def test_collect_skips_failed_board(monkeypatch, fake_headers):
     def fake_query_all(query, variables, path, *, headers=None):
         raise RuntimeError("API error")
 
-    monkeypatch.setattr(
-        f"{MODULE}.query_graphql_all", fake_query_all
-    )
+    monkeypatch.setattr(f"{MODULE}.query_graphql_all", fake_query_all)
     monkeypatch.setattr(f"{MODULE}.BOARDS", BOARDS)
 
     cards = collect(headers=fake_headers)
     assert cards == []
 
 
-def test_collect_filters_by_repo_allowlist(
-    monkeypatch, fake_headers
-):
+def test_collect_filters_by_repo_allowlist(monkeypatch, fake_headers):
     def fake_query_all(query, variables, path, *, headers=None):
         return [ISSUE_NODE]
 
-    monkeypatch.setattr(
-        f"{MODULE}.query_graphql_all", fake_query_all
-    )
+    monkeypatch.setattr(f"{MODULE}.query_graphql_all", fake_query_all)
     # ISSUE_NODE is plone/volto, allow-list only plone/plone
-    monkeypatch.setattr(
-        f"{MODULE}.REPOSITORIES", ["plone/plone"]
-    )
+    monkeypatch.setattr(f"{MODULE}.REPOSITORIES", ["plone/plone"])
     monkeypatch.setattr(f"{MODULE}.BOARDS", BOARDS)
 
     cards = collect(headers=fake_headers)

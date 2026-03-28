@@ -45,29 +45,22 @@ def collect(*, headers=None):
                 continue
 
             # Skip repos not in the allow-list
-            repo = (content.get("repository") or {}).get(
-                "nameWithOwner", ""
-            )
+            repo = (content.get("repository") or {}).get("nameWithOwner", "")
             lower_repos = [r.lower() for r in REPOSITORIES]
             if lower_repos and repo.lower() not in lower_repos:
                 continue
 
             # Check for matching label (case-insensitive)
             labels = [
-                l["name"]
-                for l in (
-                    (content.get("labels") or {}).get("nodes")
-                    or []
-                )
-                if "name" in l
+                lbl["name"]
+                for lbl in ((content.get("labels") or {}).get("nodes") or [])
+                if "name" in lbl
             ]
-            lower_labels = [l.lower() for l in labels]
+            lower_labels = [lbl.lower() for lbl in labels]
             if CONTRIBUTORS_LABEL.lower() not in lower_labels:
                 continue
 
-            card = ContributorCard.from_graphql(
-                node, project_name
-            )
+            card = ContributorCard.from_graphql(node, project_name)
             all_cards.append(card)
 
     return all_cards

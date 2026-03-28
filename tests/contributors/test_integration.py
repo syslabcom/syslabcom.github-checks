@@ -26,9 +26,7 @@ if not token:
 
 def test_real_plone_board(monkeypatch):
     monkeypatch.setattr(f"{COLLECTOR}.BOARDS", TEST_BOARDS)
-    monkeypatch.setattr(
-        f"{COLLECTOR}.CONTRIBUTORS_LABEL", TEST_LABEL
-    )
+    monkeypatch.setattr(f"{COLLECTOR}.CONTRIBUTORS_LABEL", TEST_LABEL)
     headers = get_headers(token)
     cards = collect(headers=headers)
     if not cards:
@@ -39,7 +37,7 @@ def test_real_plone_board(monkeypatch):
         assert isinstance(card.number, int)
         assert card.url.startswith("https://github.com/")
         assert card.state in ("OPEN", "CLOSED")
-        assert TEST_LABEL in [l.lower() for l in card.labels]
+        assert TEST_LABEL in [lbl.lower() for lbl in card.labels]
 
     has_start = any(c.start_date for c in cards)
     has_fix = any(c.fix_date for c in cards)

@@ -35,9 +35,7 @@ def test_query_graphql_success(
         return _FakeResponse(payload)
 
     monkeypatch.setattr(f"{MODULE}.requests.post", fake_post)
-    result = query_graphql(
-        "query {}", {}, path, headers=fake_headers
-    )
+    result = query_graphql("query {}", {}, path, headers=fake_headers)
     assert result == expected
 
 
@@ -76,9 +74,7 @@ def test_query_graphql_all_single_page(monkeypatch, fake_headers):
     assert result == [{"id": 1}, {"id": 2}]
 
 
-def test_query_graphql_all_multiple_pages(
-    monkeypatch, fake_headers
-):
+def test_query_graphql_all_multiple_pages(monkeypatch, fake_headers):
     pages = [
         {
             "data": {
@@ -124,6 +120,4 @@ def test_query_graphql_all_http_error(monkeypatch, fake_headers):
 
     monkeypatch.setattr(f"{MODULE}.requests.post", fake_post)
     with pytest.raises(RuntimeError, match="HTTP 500"):
-        query_graphql_all(
-            "query {}", {}, "data.items", headers=fake_headers
-        )
+        query_graphql_all("query {}", {}, "data.items", headers=fake_headers)
