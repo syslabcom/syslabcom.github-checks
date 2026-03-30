@@ -10,6 +10,7 @@ from syslabcom_github_checks.contributors.output import (
 
 BOARDS = [{"org": "plone", "project_num": 28}]
 REPOSITORIES = ["plone/volto"]
+LABEL = "contributors wanted"
 
 CARD = ContributorCard(
     key="plone/volto#1",
@@ -29,12 +30,13 @@ CARD = ContributorCard(
 
 
 def test_build_output():
-    result = build_output([CARD], BOARDS, REPOSITORIES)
+    result = build_output([CARD], BOARDS, REPOSITORIES, LABEL)
     assert "meta" in result
     assert "issues" in result
     assert result["meta"]["total_cards"] == 1
     assert result["meta"]["boards_queried"] == BOARDS
     assert result["meta"]["repositories"] == REPOSITORIES
+    assert result["meta"]["label"] == LABEL
     assert "generated_at" in result["meta"]
     assert result["issues"][0]["key"] == "plone/volto#1"
 

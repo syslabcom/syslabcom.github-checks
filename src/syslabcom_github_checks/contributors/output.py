@@ -4,7 +4,7 @@ import datetime
 import json
 
 
-def build_output(cards, boards, repositories):
+def build_output(cards, boards, repositories, label):
     """Build the full JSON-serializable output dict."""
     return {
         "meta": {
@@ -12,6 +12,7 @@ def build_output(cards, boards, repositories):
             "generator": "syslabcom_github_checks.contributors",
             "boards_queried": boards,
             "repositories": repositories,
+            "label": label,
             "total_cards": len(cards),
         },
         "issues": [card.to_dict() for card in cards],

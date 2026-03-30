@@ -5,7 +5,13 @@ import logging
 
 from ..github_graphql.auth import get_headers
 from .collector import collect
-from .config import BOARDS, OUTPUT_DIR, OUTPUT_FILE, REPOSITORIES
+from .config import (
+    BOARDS,
+    CONTRIBUTORS_LABEL,
+    OUTPUT_DIR,
+    OUTPUT_FILE,
+    REPOSITORIES,
+)
 from .output import build_output, write_json
 
 log = logging.getLogger(__name__)
@@ -51,7 +57,7 @@ def main(argv=None):
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
     path = OUTPUT_DIR / OUTPUT_FILE
 
-    data = build_output(cards, BOARDS, REPOSITORIES)
+    data = build_output(cards, BOARDS, REPOSITORIES, CONTRIBUTORS_LABEL)
     write_json(data, path)
     log.info("Wrote %s", path)
 
